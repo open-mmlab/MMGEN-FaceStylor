@@ -1,7 +1,7 @@
 # MMGEN-FaceStylor
 <a href="http://app.openmmlab.com/facestylor/"><img src="https://img.shields.io/badge/Play%20Now!-Demo-orange" height=22.5></a>
 <a href="https://colab.research.google.com/drive/12ECMTWtP-MyZn3HetiFJ6udXBIX_C1Gb?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>
-[English](README.md) | 简体中文
+[English](https://github.com/open-mmlab/MMGEN-FaceStylor/blob/master/README.md) | 简体中文
 ## 介绍
 这个仓库是论文 "AgileGAN: Stylizing Portraits by Inversion-Consistent Transfer Learning" 的非官方实现。我们注意到，由于 AgileGAN 的训练代码还没有发布，这个 repo 只是采用了 AgileGAN 的 pipeline，并结合了该领域中的其他有益做法。
 这个项目基于[MMCV](https://github.com/open-mmlab/mmcv) 和 [MMGEN](https://github.com/open-mmlab/mmgeneration)，欢迎大家给这两个仓库star和fork 🤗！
