@@ -52,7 +52,7 @@ cd ..
 <!-- I'm not sure what the git address is -->
 克隆该代码仓库
 ```bash
-git clone git@github.com:open-mmlab/MMGEN-FaceStylor.git
+git clone https://github.com/open-mmlab/MMGEN-FaceStylor.git
 ```
 
 ### 第四步 下载数据和权重

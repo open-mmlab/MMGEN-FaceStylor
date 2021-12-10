@@ -56,7 +56,7 @@ cd ..
 <!-- I'm not sure what the git address is -->
 Now, we need to clone this repo first.
 ```bash
-git clone git@github.com:open-mmlab/MMGEN-FaceStylor.git
+git clone https://github.com/open-mmlab/MMGEN-FaceStylor.git
 ```
 
 For convenience, we suggest that you make these folders under `MMGEN-FaceStylor`.
