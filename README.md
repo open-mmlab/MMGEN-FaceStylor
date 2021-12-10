@@ -85,7 +85,7 @@ We also provide some pre-trained weights.
 | [Encoder for FFHQ-256 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_encoder_celebahq256x256_lr_1e-4_150k_20211104_134520-9cce67da.pth)  |
 | [MetFace-Oil 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134350-2b99cb9b.pth)      |
 | [MetFace-Sketch 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-sketch1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134426-081af2a2.pth)   |
-| [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134449-cb6785b6.pth)          |
+| [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter_20211104_134449-cb6785b6.pth)          |
 |[Cartoon 256](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmgen/agilegan/agile_transfer_photo2cartoon256x256_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_800_iter_20211201_140719-062c09fa.pth)|
 |[Bitmoji 256](agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
 |[Comic 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_face2comics256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_30kiter_best_fid_iter_15000_20211201_111145-4905b63a.pth)|
@@ -134,7 +134,7 @@ python demo/agilegan_demo.py SOURCE_PATH CONFIG [--device DEVICE] [--save-path S
 ## Train
 Here I will tell you how to fine-tune with your own datasets. With only 100-200 images and less than one hour,
 you can train your own StyleGAN2. The only thing you need to do is to copy an
-`agile_transfer` config, like this [one](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter.py). Then modify the `imgs_root` with your actual data root, choose one of the two commands below to train your own model.
+`agile_transfer` config, like this [one](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter.py). Then modify the `imgs_root` with your actual data root, choose one of the two commands below to train your own model.
 ```bash
 # For distributed training
 bash tools/dist_train.sh ${CONFIG_FILE} ${GPUS_NUMBER} \

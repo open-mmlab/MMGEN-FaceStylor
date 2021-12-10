@@ -55,9 +55,9 @@ git clone git@github.com:open-mmlab/MMGEN-FaceStylor.git
 ```
 
 ### 第四步 下载数据和权重
-方便起见，你可以运行下面命令在`Agile-Project`下来创建一些文件夹。
+方便起见，你可以运行下面命令在`MMGEN-FaceStylor`下来创建一些文件夹。
 ```bash
-cd Agile-Project
+cd MMGEN-FaceStylor
 mkdir data
 mkdir work_dirs
 mkdir work_dirs/experiments
@@ -78,7 +78,7 @@ mkdir work_dirs/pre-trained
 | [Encoder for FFHQ-256 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_encoder_celebahq256x256_lr_1e-4_150k_20211104_134520-9cce67da.pth)  |
 | [MetFace-Oil 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134350-2b99cb9b.pth)      |
 | [MetFace-Sketch 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-sketch1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134426-081af2a2.pth)   |
-| [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134449-cb6785b6.pth)          |
+| [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter_20211104_134449-cb6785b6.pth)          |
 |[Cartoon 256](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmgen/agilegan/agile_transfer_photo2cartoon256x256_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_800_iter_20211201_140719-062c09fa.pth)|
 |[Bitmoji 256](agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
 |[Comic 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_face2comics256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_30kiter_best_fid_iter_15000_20211201_111145-4905b63a.pth)|
@@ -117,7 +117,7 @@ encoder_ckpt_path = xxx
 stylegan_weights = xxx
 ```
 其中编码器通过 [agile_encoder](configs/agilegan/agile_encoder_celebahq1024x1024_lr_1e-4_150k.py) 训练得到。
-后者通过 [agile_transfer](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter.py) 训练得到。
+后者通过 [agile_transfer](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter.py) 训练得到。
 你需要在 config 文件中设置实际的 checkpoint 路径。和 Inversion 一样运行下面的命令(这里不需要申明`CKPT`)。
 ```bash
 python demo/agilegan_demo.py SOURCE_PATH CONFIG [--device DEVICE] [--save-path SAVE_PATH]
@@ -126,7 +126,7 @@ python demo/agilegan_demo.py SOURCE_PATH CONFIG [--device DEVICE] [--save-path S
 
 ## 训练
 你也可以在自己的数据集上进行微调。大概用100到200张图片和不超过两个GPU时，你可以训练自己的 `StyleGAN2` 模型（参考AgileGAN）。
-你可以参考微调训练的 [config](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter.py)，
+你可以参考微调训练的 [config](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter.py)，
 将其中 `imgs_root` 换成你实际数据路径，然后根据你的训练环境，选择下面两个命令中的一个来开启训练
 ```bash
 # For distributed training
@@ -139,7 +139,7 @@ bash tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG} ${WORK_DIR} \
 ```
 
 ## 训练细节
-以 [metface-oil](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter.py) 为例，说明一些训练细节。
+以 [metface-oil](configs/agilegan/agile_transfer_metfaces-oil1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_2e-3_1600iter.py) 为例，说明一些训练细节。
 
 ```python
 model = dict(
