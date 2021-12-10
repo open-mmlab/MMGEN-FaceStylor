@@ -2,6 +2,8 @@
 <a href="http://app.openmmlab.com/facestylor/"><img src="https://img.shields.io/badge/Play%20Now!-Demo-orange" height=22.5></a>
 <a href="https://colab.research.google.com/drive/12ECMTWtP-MyZn3HetiFJ6udXBIX_C1Gb?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>  
 
+English | [简体中文](README_zh-CN.md)
+
 ## Introduction
 This repo is an efficient toolkit for Face Stylization based on the paper "AgileGAN: Stylizing Portraits by Inversion-Consistent Transfer Learning". We note that since the training code of AgileGAN is not released yet, this repo merely adopts the pipeline from AgileGAN and combines other helpful practices in this literature.
 
@@ -112,7 +114,7 @@ Here, you should set `SOURCE_PATH` to your image path, `CONFIG` to the config fi
 
 Take [Celebahq-Encoder](configs/agilegan/agile_encoder_celebahq_lr_1e-4_150k.py) as an example, you need to download the [weights](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmgen/agilegan/agile_encoder_celebahq1024x1024_lr_1e-4_150k_20211104_133124-a7e2fd7f.pth?versionId=CAEQHhiBgMDpiaGo5xciIDgzNTQ4YTQ2OWQ1OTQ0NmM4NWZiZjg2MTk0ZGEzMmFi) to `work_dirs/pre-trained/agile_encoder_celebahq1024x1024_lr_1e-4_150k.pth`, put your test image under `data` run
 ```bash
-python demo/agilegan_demo.py data/src.png configs/agilegan/agile_encoder_celebahq1024x1024_lr_1e-4_150k.py --ckpt work_dirs/pre-trained/agile_encoder_celebahq_lr_1e-4_150k.pth
+python demo/agilegan_demo.py demo/src.png configs/agilegan/agile_encoder_celebahq1024x1024_lr_1e-4_150k.py --ckpt work_dirs/pre-trained/agile_encoder_celebahq_lr_1e-4_150k.pth
 ```
 You will find the result `work_dirs/demos/agile_result.png`.
 
@@ -238,7 +240,10 @@ You can also try [applications](https://github.com/open-mmlab/mmgeneration/tree/
 
 ### Interpolation
 
- <img src="https://user-images.githubusercontent.com/22982797/140736383-80ed0c92-6574-48c3-a8a2-7bbd61d636f0.gif" width="150"/> <img src="https://user-images.githubusercontent.com/22982797/140735465-09e4fc90-d8c6-4100-925c-993b018095b9.gif" width="150"/>   <img src="https://user-images.githubusercontent.com/22982797/140735603-56e589b5-7ed3-412d-8ec5-1ca6965c6e2c.gif" width="150"/>   <img src="https://user-images.githubusercontent.com/22982797/140735788-ea35308f-6c1b-4744-967d-27a06326bcd8.gif" width="150"/>
+<div align="center">
+  <br/>
+  <img src="https://user-images.githubusercontent.com/22982797/145522062-8a4f1210-694a-42d5-8a12-9de6e844c293.gif">
+</div>
 
 Indeed, we have provided an application script to users. You can use apps/interpolate_sample.py with the following commands for unconditional models’ interpolation:
 ```bash
