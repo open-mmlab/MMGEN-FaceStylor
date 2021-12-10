@@ -357,3 +357,4 @@ Web demo powered by:
 https://gradio.app/
 
 ## License
+This project is released under the [Apache 2.0 license](https://github.com/open-mmlab/MMGEN-FaceStylor/blob/master/LICENSE). Some implementation in MMGEN-FaceStylor are with other licenses instead of Apache2.0. Please refer to [LICENSES.md](https://github.com/open-mmlab/MMGEN-FaceStylor/blob/master/LICENSE.md) for the careful check, if you are using our code for commercial matters.

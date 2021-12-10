@@ -47,7 +47,7 @@ class VAEStyleEncoder(Module):
                  vae_enable=False):
         super(VAEStyleEncoder, self).__init__()
         assert num_layers in [50, 100, 152]
-        mmcv.print_log('Use vae style encoder!')
+        mmcv.print_log('Use vae style encoder')
         blocks = get_blocks(num_layers)
         unit_module = bottleneck_IR_SE
         self.input_layer = Sequential(
