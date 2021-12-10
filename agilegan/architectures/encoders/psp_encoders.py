@@ -1,12 +1,11 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch import nn
-from torch.nn import BatchNorm2d, Conv2d, Linear, Module, PReLU, Sequential
-
 from models.encoders.helpers import (Flatten, bottleneck_IR, bottleneck_IR_SE,
                                      get_blocks)
 from models.stylegan2.model import EqualLinear
+from torch import nn
+from torch.nn import BatchNorm2d, Conv2d, Linear, Module, PReLU, Sequential
 
 
 class GradualStyleBlock(Module):

@@ -6,9 +6,8 @@ import cv2
 import mmcv
 import torch
 import torchvision.transforms as transforms
-from torchvision import utils
-
 import utils.normal_image as normal_image
+from torchvision import utils
 
 # yapf: enable
 # yapf: disable

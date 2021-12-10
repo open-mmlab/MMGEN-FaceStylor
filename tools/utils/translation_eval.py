@@ -8,8 +8,6 @@ import torch
 from mmcv import Config
 from mmcv.parallel import MMDataParallel
 from mmcv.runner import load_checkpoint
-from torchvision.utils import save_image
-
 from mmgen.apis import set_random_seed
 from mmgen.core import build_metric
 from mmgen.core.evaluation import make_metrics_table, make_vanilla_dataloader
@@ -17,6 +15,7 @@ from mmgen.datasets import build_dataloader, build_dataset
 from mmgen.models import build_model
 from mmgen.models.gans import CycleGAN, Pix2Pix
 from mmgen.utils import get_root_logger
+from torchvision.utils import save_image
 
 
 def parse_args():

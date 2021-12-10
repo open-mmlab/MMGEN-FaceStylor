@@ -2,11 +2,10 @@ from copy import deepcopy
 
 import torch
 import torch.nn.functional as F
-from torch.nn.parallel.distributed import _find_tensors
-
 from mmgen.models.builder import MODELS, build_module
 from mmgen.models.common import set_requires_grad
 from mmgen.models.gans.static_unconditional_gan import StaticUnconditionalGAN
+from torch.nn.parallel.distributed import _find_tensors
 
 from .losses.lpips.lpips import LPIPS
 
