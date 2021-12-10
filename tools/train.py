@@ -9,6 +9,7 @@ import torch
 from mmcv import Config, DictAction
 from mmcv.runner import get_dist_info, init_dist
 from mmcv.utils import get_git_hash
+
 from mmgen import __version__
 from mmgen.apis import set_random_seed, train_model
 from mmgen.datasets import build_dataset

@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+
 from mmgen.models.builder import MODULES
 
 from .networks import LinLayers, get_network

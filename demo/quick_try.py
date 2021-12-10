@@ -8,8 +8,9 @@ import mmcv
 import torch
 import torch.nn.functional as F
 import torchvision.transforms as transforms
-from mmgen.apis import init_model
 from torchvision.utils import save_image
+
+from mmgen.apis import init_model
 
 sys.path.append(os.path.abspath(os.path.join(__file__,
                                              '../../')))  # isort:skip  # noqa

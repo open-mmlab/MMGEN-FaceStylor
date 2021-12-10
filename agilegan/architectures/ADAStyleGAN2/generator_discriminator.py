@@ -3,11 +3,12 @@ import random
 import mmcv
 import numpy as np
 import torch
+from torch import nn
+
 from mmgen.models.architectures.common import get_module_device
 from mmgen.models.architectures.stylegan.generator_discriminator_v2 import (
     StyleGAN2Discriminator, StyleGANv2Generator)
 from mmgen.models.builder import MODULES, build_module
-from torch import nn
 
 from .ada.augment import AugmentPipe
 from .ada.misc import constant

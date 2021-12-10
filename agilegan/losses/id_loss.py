@@ -1,6 +1,7 @@
 import torch
-from mmgen.models.builder import MODULES
 from torch import nn
+
+from mmgen.models.builder import MODULES
 
 from ..architectures.encoders.model_irse import Backbone
 

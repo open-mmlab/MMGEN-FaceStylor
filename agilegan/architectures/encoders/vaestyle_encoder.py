@@ -3,9 +3,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from mmcv.runner.checkpoint import _load_checkpoint_with_prefix
-from mmgen.models.builder import MODELS, MODULES
 from torch import nn
 from torch.nn import BatchNorm2d, Conv2d, Module, PReLU, Sequential
+
+from mmgen.models.builder import MODELS, MODULES
 
 from ..RosiStylegan2.model import EqualLinear
 from .helpers import bottleneck_IR_SE, get_blocks

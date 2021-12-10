@@ -3,8 +3,9 @@ from copy import deepcopy
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from mmgen.models.builder import MODELS, build_module
 from torch.nn.parallel.distributed import _find_tensors
+
+from mmgen.models.builder import MODELS, build_module
 
 from .losses import id_loss
 from .losses.lpips.lpips import LPIPS
