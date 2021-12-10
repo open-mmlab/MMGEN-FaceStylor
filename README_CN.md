@@ -225,7 +225,9 @@ python modelA modelB [--swap-layer SWAP_LAYER] [--show-input SHOW_INPUT] [--devi
   <br/>
   <img src="https://user-images.githubusercontent.com/22982797/140469139-8de3d1b2-e009-4acd-9754-cab24eaa59a3.png" width="800"/>
 </div>
+
 你可以使用 [DNI](https://github.com/xinntao/DNI) 来实现更精细的风格化程度控制：
+
 ```bash
 python apps/dni.py source_path modelA modelB [--intervals INTERVALS] [--device DEVICE] [--save-folder SAVE_FOLDER]
 ```
@@ -233,8 +235,9 @@ python apps/dni.py source_path modelA modelB [--intervals INTERVALS] [--device D
 这里, 将 `modelA` 和 `modelB` 设成 `agile_encoder` 类型 config，其中解码器的风格化程度不同. `INTERVALS` 设成插值数量。
 
 
-你也可以试用 MMGEN 中的 [应用](https://github.com/open-mmlab/mmgeneration/tree/master/apps)，比如插值和 SEFA.
-### Interpolation
+你也可以试用 MMGEN 中的 [应用](https://github.com/open-mmlab/mmgeneration/tree/master/apps)，比如插值.
+
+### 插值
 
 <div align="center">
   <br/>
