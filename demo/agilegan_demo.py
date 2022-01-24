@@ -22,7 +22,7 @@ def parse_args():
     parser.add_argument('source_path', help='source image path')
     parser.add_argument('config', help='test config file path')
     parser.add_argument(
-        '--ckpt', type=str, default=None, help='CUDA device id')
+        '--ckpt', type=str, default=None, help='encoder checkpoint')
     parser.add_argument(
         '--device', type=str, default='cuda:0', help='CUDA device id')
     parser.add_argument(

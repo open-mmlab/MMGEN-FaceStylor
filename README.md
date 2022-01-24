@@ -32,7 +32,6 @@ conda activate facestylor
 Suppose you have installed CUDA 10.1, you need to install the prebuilt PyTorch with CUDA 10.1.
 ```bash
 conda install pytorch=1.6.0 cudatoolkit=10.1 torchvision -c pytorch
-pip install requirements.txt
 ```
 
 ### Step-2: Install MMCV and MMGEN
@@ -54,25 +53,26 @@ cd ..
 ```
 ### Step-3: Clone repo and prepare the data and weights
 <!-- I'm not sure what the git address is -->
-Now, we need to clone this repo first.
+Now, we need to clone this repo and install dependencies.
 ```bash
 git clone https://github.com/open-mmlab/MMGEN-FaceStylor.git
+cd MMGEN-FaceStylor
+pip install -r requirements.txt
 ```
 
 For convenience, we suggest that you make these folders under `MMGEN-FaceStylor`.
 ```bash
-cd MMGEN-FaceStylor
 mkdir data
 mkdir work_dirs
 mkdir work_dirs/experiments
 mkdir work_dirs/pre-trained
 ```
-Then, you can put or create the soft-link for your data under `data` folder, and store your experiments under `work_dirs/experiments`.
-
 For testing and training, you need to download some necessary [data](https://drive.google.com/drive/folders/1sksjD4awYwSAgibix83hVtx1sm4KOekm) provided by [AgileGAN](https://github.com/flyingbread-elon/AgileGAN) and put them under `data` folder. Or just run this:
 ```bash
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1AavRxpZJYeCrAOghgtthYqVB06y9QJd3' -O data/shape_predictor_68_face_landmarks.dat
 ```
+Then, you can put or create the soft-link for your data under `data` folder, and store your experiments under `work_dirs/experiments`.
+
 
 We also provide some pre-trained weights.
 
@@ -87,7 +87,7 @@ We also provide some pre-trained weights.
 | [MetFace-Sketch 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-sketch1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134426-081af2a2.pth)   |
 | [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134449-cb6785b6.pth)          |
 |[Cartoon 256](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmgen/agilegan/agile_transfer_photo2cartoon256x256_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_800_iter_20211201_140719-062c09fa.pth)|
-|[Bitmoji 256](agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
+|[Bitmoji 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
 |[Comic 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_face2comics256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_30kiter_best_fid_iter_15000_20211201_111145-4905b63a.pth)|
 | More Styles on the Way!             |
 
