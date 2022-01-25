@@ -99,15 +99,19 @@ class AgileGANInference:
     stylized image by decoding latent code.
 
     Args:
-        encoder_config ([type], optional): [description]. Defaults to None.
-        transfer_config ([type], optional): [description]. Defaults to None.
-        encoder_ckpt ([type], optional): [description]. Defaults to None.
-        transfer_ckpt ([type], optional): [description]. Defaults to None.
+        encoder_config (str or :obj:`mmcv.Config`, optional): Config file path
+            or the config object for encoder. Defaults to None.
+        encoder_ckpt (str, optional): Checkpoint path for encoder. If left as
+            None, the model will not load any weights.
+        transfer_config (str or :obj:`mmcv.Config`, optional): Config file path
+            or the config object for transfer learning. Defaults to None.
+        transfer_ckpt (str, optional): Checkpoint path for transfer learning.
+            If left as None, the model will not load any weights.
     """
     def __init__(self,
                  encoder_config=None,
-                 transfer_config=None,
                  encoder_ckpt=None,
+                 transfer_config=None,
                  transfer_ckpt=None):
         self.encoder_model = init_model(encoder_config,
                                         checkpoint=encoder_ckpt,
