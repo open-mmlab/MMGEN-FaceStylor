@@ -32,7 +32,6 @@ conda activate facestylor
 Suppose you have installed CUDA 10.1, you need to install the prebuilt PyTorch with CUDA 10.1.
 ```bash
 conda install pytorch=1.6.0 cudatoolkit=10.1 torchvision -c pytorch
-pip install requirements.txt
 ```
 
 ### Step-2: Install MMCV and MMGEN
@@ -54,25 +53,26 @@ cd ..
 ```
 ### Step-3: Clone repo and prepare the data and weights
 <!-- I'm not sure what the git address is -->
-Now, we need to clone this repo first.
+Now, we need to clone this repo and install dependencies.
 ```bash
 git clone https://github.com/open-mmlab/MMGEN-FaceStylor.git
+cd MMGEN-FaceStylor
+pip install -r requirements.txt
 ```
 
 For convenience, we suggest that you make these folders under `MMGEN-FaceStylor`.
 ```bash
-cd MMGEN-FaceStylor
 mkdir data
 mkdir work_dirs
 mkdir work_dirs/experiments
 mkdir work_dirs/pre-trained
 ```
-Then, you can put or create the soft-link for your data under `data` folder, and store your experiments under `work_dirs/experiments`.
-
 For testing and training, you need to download some necessary [data](https://drive.google.com/drive/folders/1sksjD4awYwSAgibix83hVtx1sm4KOekm) provided by [AgileGAN](https://github.com/flyingbread-elon/AgileGAN) and put them under `data` folder. Or just run this:
 ```bash
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1AavRxpZJYeCrAOghgtthYqVB06y9QJd3' -O data/shape_predictor_68_face_landmarks.dat
 ```
+Then, you can put or create the soft-link for your data under `data` folder, and store your experiments under `work_dirs/experiments`.
+
 
 We also provide some pre-trained weights.
 
@@ -87,7 +87,7 @@ We also provide some pre-trained weights.
 | [MetFace-Sketch 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_metfaces-sketch1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134426-081af2a2.pth)   |
 | [Toonify 1024 StyleGAN2](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_toonify1024x1024_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_1600iter_20211104_134449-cb6785b6.pth)          |
 |[Cartoon 256](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmgen/agilegan/agile_transfer_photo2cartoon256x256_zplus_lpips0.5_freezeD5_ada_bs4x2_lr_1e-4_800_iter_20211201_140719-062c09fa.pth)|
-|[Bitmoji 256](agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
+|[Bitmoji 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_bitmoji256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_iter_1600_20211202_195819-9010a9fe.pth)|
 |[Comic 256](https://download.openmmlab.com/mmgen/agilegan/agile_transfer_face2comics256x256_z_wolpips_freezeD3_ada_bs4x2_lr_1e-4_30kiter_best_fid_iter_15000_20211201_111145-4905b63a.pth)|
 | More Styles on the Way!             |
 
@@ -148,7 +148,7 @@ bash tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG} ${WORK_DIR} \
 ## Training Details
 In this part, I will explain some training details, including ADA setting, layer freeze, and losses.
 ### ADA Setting
-To use [ADA](https://github.com/NVlabs/stylegan2-ada-pytorch) in your discriminator, you can use `ADAStyleGAN2Discriminator` as your discriminator, and adjust `ADAAug` setting as follows:
+To use [adaptive discriminator augmentation](https://github.com/NVlabs/stylegan2-ada-pytorch) in your discriminator, you can use `ADAStyleGAN2Discriminator` as your discriminator, and adjust `ADAAug` setting as follows:
 ```python
 model = dict(
     discriminator=dict(
@@ -163,8 +163,9 @@ model = dict(
 ```
 
 ### Layer Freeze Setting
-[FreezeD](https://github.com/sangwoomo/FreezeD) can be used for small data fine-tuning.
-
+In transfer learning, it's a routine to freeze some layers in models.
+In GAN's literature, freezing the shallow layers of pre-trained generator and discriminator may help training convergence.
+[FreezeD](https://github.com/sangwoomo/FreezeD) can be used for small data fine-tuning,
 [FreezeG](https://github.com/bryandlee/FreezeG) can be used for pseudo translation.
 ```python
 model = dict(
@@ -206,18 +207,15 @@ When [Layer Swapping](https://github.com/justinpinkney/toonify) is applied, the 
   <img src="https://user-images.githubusercontent.com/22982797/140281887-b24f6805-90c9-4735-9d02-1b7bc44d288f.png" width="800"/>
 </div>
 
-Run this command line to perform layer swapping:
+Run this command line to with different `SWAP_LAYER`(1, 2, 3, 4, etc) :
 ```bash
-python apps/layerSwap.py source_path modelA modelB \
-      [--swap-layer SWAP_LAYER] [--device DEVICE] [--save-path SAVE_PATH]
+python demo/quick_try.py demo/src.png --style toonify --swap-layer=SWAP_LAYER
 ```
-
-Here, `modelA` is set to an `PSPEncoderDecoder`(config starts with `agile_encoder`) with FFHQ-StyleGAN2 as the decoder, `modelB` is set to an `PSPEncoderDecoder`(config starts with `agile_encoder`) with desired style generator as the decoder.
-Generally, the deeper you set `swap-layer`, the better structure of the original image will be kept.
+and you can discover the result tends to be close to the source image.
 
 We also provide a blending script to create and save the mixed weights.
 ```bash
-python modelA modelB [--swap-layer SWAP_LAYER] [--show-input SHOW_INPUT] [--device DEVICE] [--save-path SAVE_PATH]
+python apps/blend_weights.py modelA modelB [--swap-layer SWAP_LAYER] [--show-input SHOW_INPUT] [--device DEVICE] [--save-path SAVE_PATH]
 ```
 
 Here, `modelA` is the base model, where only the deep layers of its decoder will be replaced with `modelB`'s counterpart.
@@ -344,7 +342,6 @@ Bitmoji
 - For training settings, the parameters have slight difference from the paper. And I also tried `ADA`, `freezeD` and other methods not mentioned in paper.
 - More styles will be available in the next version.
 - More applications will be available in the next version.
-- We are also considering a web-side application.
 - Further code clean jobs.
 
 ## Acknowledgments

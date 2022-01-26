@@ -15,8 +15,10 @@ from mmgen.apis import init_model, sample_uncoditional_model  # isort:skip  # no
 def parse_args():
     parser = argparse.ArgumentParser(description='Blend decoders\' weights of'
                                      ' EncoderDecoders')
-    parser.add_argument('modelA', help='Encoder config file path')
-    parser.add_argument('modelB', help='Transfer config file path')
+    parser.add_argument('modelA', help='EncoderDecoder config file path'
+                        ',which decoder is base generator')
+    parser.add_argument('modelB', help='EncoderDecoder config file path'
+                        'which decoder is stylized generator')
     parser.add_argument(
         '--swap-layer', type=int, default=4, help='swap layer')
     parser.add_argument(
