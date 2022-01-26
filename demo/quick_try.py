@@ -40,12 +40,8 @@ _transfer_config[1024] = 'configs/demo/agile_transfer_1024x1024.py'
 
 # flake8: enable
 # style and its generator resolution
-_resolution = dict(cartoon=256,
-                   bitmoji=256,
-                   comic=256,
-                   toonify=1024,
-                   oil=1024,
-                   sketch=1024)
+_resolution = dict(
+    cartoon=256, bitmoji=256, comic=256, toonify=1024, oil=1024, sketch=1024)
 # number of layers which keep the original weights
 _swap_layer = dict(toonify=3, oil=2, sketch=1, cartoon=1, bitmoji=1, comic=2)
 
@@ -65,21 +61,25 @@ def parse_args():
     parser = argparse.ArgumentParser(description='AgileGAN Demo')
     parser.add_argument('img_path', help='source image path')
     parser.add_argument('--style', type=str, help='style')
-    parser.add_argument('--resize',
-                        action='store_true',
-                        help='whether resize result to 256x256')
-    parser.add_argument('--swap-layer',
-                        type=int,
-                        default=-1,
-                        help='Layer index for swapping forward')
-    parser.add_argument('--ckpt-path',
-                        type=str,
-                        default='work_dirs/pre-trained',
-                        help='path to save pre-trained models')
-    parser.add_argument('--save-path',
-                        type=str,
-                        default='./work_dirs/demos/agile_result.png',
-                        help='path to save image transfer result')
+    parser.add_argument(
+        '--resize',
+        action='store_true',
+        help='whether resize result to 256x256')
+    parser.add_argument(
+        '--swap-layer',
+        type=int,
+        default=-1,
+        help='Layer index for swapping forward')
+    parser.add_argument(
+        '--ckpt-path',
+        type=str,
+        default='work_dirs/pre-trained',
+        help='path to save pre-trained models')
+    parser.add_argument(
+        '--save-path',
+        type=str,
+        default='./work_dirs/demos/agile_result.png',
+        help='path to save image transfer result')
     args = parser.parse_args()
     return args
 
@@ -108,17 +108,16 @@ class AgileGANInference:
         transfer_ckpt (str, optional): Checkpoint path for transfer learning.
             If left as None, the model will not load any weights.
     """
+
     def __init__(self,
                  encoder_config=None,
                  encoder_ckpt=None,
                  transfer_config=None,
                  transfer_ckpt=None):
-        self.encoder_model = init_model(encoder_config,
-                                        checkpoint=encoder_ckpt,
-                                        device='cpu').eval()
-        self.transfer_model = init_model(transfer_config,
-                                         checkpoint=transfer_ckpt,
-                                         device='cpu').eval()
+        self.encoder_model = init_model(
+            encoder_config, checkpoint=encoder_ckpt, device='cpu').eval()
+        self.transfer_model = init_model(
+            transfer_config, checkpoint=transfer_ckpt, device='cpu').eval()
 
     def load_in_cuda(self):
         """load encoder, source generator, stylization generator into GPU."""
@@ -181,7 +180,7 @@ class AgileGANInference:
                 Defaults to 1.
 
         Returns:
-            [type]: [description]
+            tensor: Stylized image tensor.
         """
         ''''''
         mmcv.print_log('Performing Layer Swapping', 'mmgen')
@@ -224,13 +223,14 @@ def main():
     size = _resolution[args.style]
     # download transfer model's weight
     transfer_ckpt_name = os.path.basename(_supported_style[args.style])
-    download_ckpt(os.path.join(args.ckpt_path, transfer_ckpt_name),
-                  _supported_style[args.style])
+    download_ckpt(
+        os.path.join(args.ckpt_path, transfer_ckpt_name),
+        _supported_style[args.style])
 
     # download encoder model's weight
     encoder_ckpt_name = os.path.basename(_encoder_ckpt[size])
-    download_ckpt(os.path.join(args.ckpt_path, encoder_ckpt_name),
-                  _encoder_ckpt[size])
+    download_ckpt(
+        os.path.join(args.ckpt_path, encoder_ckpt_name), _encoder_ckpt[size])
 
     # build inference worker
     testor = AgileGANInference(

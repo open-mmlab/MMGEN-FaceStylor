@@ -148,7 +148,7 @@ bash tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG} ${WORK_DIR} \
 ## Training Details
 In this part, I will explain some training details, including ADA setting, layer freeze, and losses.
 ### ADA Setting
-To use [ADA](https://github.com/NVlabs/stylegan2-ada-pytorch) in your discriminator, you can use `ADAStyleGAN2Discriminator` as your discriminator, and adjust `ADAAug` setting as follows:
+To use [adaptive discriminator augmentation](https://github.com/NVlabs/stylegan2-ada-pytorch) in your discriminator, you can use `ADAStyleGAN2Discriminator` as your discriminator, and adjust `ADAAug` setting as follows:
 ```python
 model = dict(
     discriminator=dict(
@@ -163,8 +163,9 @@ model = dict(
 ```
 
 ### Layer Freeze Setting
-[FreezeD](https://github.com/sangwoomo/FreezeD) can be used for small data fine-tuning.
-
+In transfer learning, it's a routine to freeze some layers in models.
+In GAN's literature, freezing the shallow layers of pre-trained generator and discriminator may help training convergence.
+[FreezeD](https://github.com/sangwoomo/FreezeD) can be used for small data fine-tuning,
 [FreezeG](https://github.com/bryandlee/FreezeG) can be used for pseudo translation.
 ```python
 model = dict(
@@ -206,18 +207,15 @@ When [Layer Swapping](https://github.com/justinpinkney/toonify) is applied, the 
   <img src="https://user-images.githubusercontent.com/22982797/140281887-b24f6805-90c9-4735-9d02-1b7bc44d288f.png" width="800"/>
 </div>
 
-Run this command line to perform layer swapping:
+Run this command line to with different `SWAP_LAYER`(1, 2, 3, 4, etc) :
 ```bash
-python apps/layerSwap.py source_path modelA modelB \
-      [--swap-layer SWAP_LAYER] [--device DEVICE] [--save-path SAVE_PATH]
+python demo/quick_try.py demo/src.png --style toonify --swap-layer=SWAP_LAYER
 ```
-
-Here, `modelA` is set to an `PSPEncoderDecoder`(config starts with `agile_encoder`) with FFHQ-StyleGAN2 as the decoder, `modelB` is set to an `PSPEncoderDecoder`(config starts with `agile_encoder`) with desired style generator as the decoder.
-Generally, the deeper you set `swap-layer`, the better structure of the original image will be kept.
+and you can discover the result tends to be close to the source image.
 
 We also provide a blending script to create and save the mixed weights.
 ```bash
-python modelA modelB [--swap-layer SWAP_LAYER] [--show-input SHOW_INPUT] [--device DEVICE] [--save-path SAVE_PATH]
+python apps/blend_weights.py modelA modelB [--swap-layer SWAP_LAYER] [--show-input SHOW_INPUT] [--device DEVICE] [--save-path SAVE_PATH]
 ```
 
 Here, `modelA` is the base model, where only the deep layers of its decoder will be replaced with `modelB`'s counterpart.
@@ -344,7 +342,6 @@ Bitmoji
 - For training settings, the parameters have slight difference from the paper. And I also tried `ADA`, `freezeD` and other methods not mentioned in paper.
 - More styles will be available in the next version.
 - More applications will be available in the next version.
-- We are also considering a web-side application.
 - Further code clean jobs.
 
 ## Acknowledgments
