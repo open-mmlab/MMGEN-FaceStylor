@@ -74,6 +74,12 @@ For testing and training, you need to download some necessary [data](https://dri
 wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1AavRxpZJYeCrAOghgtthYqVB06y9QJd3' -O data/shape_predictor_68_face_landmarks.dat
 ```
 
+or
+
+```bash
+wget --no-check-certificate https://github.com/JeffTrain/selfie/raw/master/shape_predictor_68_face_landmarks.dat -O data/shape_predictor_68_face_landmarks.dat
+```
+
 We also provide some pre-trained weights.
 
 | Pre-trained Weights                  |
