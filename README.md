@@ -4,6 +4,8 @@
 
 English | [简体中文](https://github.com/open-mmlab/MMGEN-FaceStylor/blob/master/README_CN.md)
 
+[Video Tutorial](https://www.bilibili.com/video/BV1XL4y1g7in)
+
 ## Introduction
 This repo is an efficient toolkit for Face Stylization based on the paper "AgileGAN: Stylizing Portraits by Inversion-Consistent Transfer Learning". We note that since the training code of AgileGAN is not released yet, this repo merely adopts the pipeline from AgileGAN and combines other helpful practices in this literature.
 
