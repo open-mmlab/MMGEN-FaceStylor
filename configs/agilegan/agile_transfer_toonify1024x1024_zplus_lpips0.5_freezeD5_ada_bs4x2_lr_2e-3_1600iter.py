@@ -7,8 +7,8 @@ _base_ = [
 # you must set `samples_per_gpu`
 # `samples_per_gpu` and `imgs_root` need to be set.
 imgs_root = 'data/toonify'
-data = dict(samples_per_gpu=1,
-            workers_per_gpu=1,
+data = dict(samples_per_gpu=4,
+            workers_per_gpu=4,
             train=dict(dataset=dict(imgs_root=imgs_root)),
             val=dict(imgs_root=imgs_root))
 
