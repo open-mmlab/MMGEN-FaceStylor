@@ -29,7 +29,6 @@ def requires_grad(model, flag=True, target_layer=None):
 
 @MODELS.register_module()
 class PSPTransfer(StaticUnconditionalGAN):
-
     def __init__(self,
                  src_generator,
                  generator,
@@ -45,14 +44,13 @@ class PSPTransfer(StaticUnconditionalGAN):
                  sample_space='zplus',
                  train_cfg=None,
                  test_cfg=None):
-        super().__init__(
-            generator,
-            discriminator,
-            gan_loss,
-            disc_auxiliary_loss=disc_auxiliary_loss,
-            gen_auxiliary_loss=gen_auxiliary_loss,
-            train_cfg=train_cfg,
-            test_cfg=test_cfg)
+        super().__init__(generator,
+                         discriminator,
+                         gan_loss,
+                         disc_auxiliary_loss=disc_auxiliary_loss,
+                         gen_auxiliary_loss=gen_auxiliary_loss,
+                         train_cfg=train_cfg,
+                         test_cfg=test_cfg)
         self.src_g_cfg = deepcopy(src_generator)
         self.source_generator = build_module(src_generator)
         self.lpips_lambda = lpips_lambda
@@ -91,8 +89,8 @@ class PSPTransfer(StaticUnconditionalGAN):
             target_is_real=True,
             is_disc=False)
         # TODO: add modified LPIPS
-        source_results = self.source_generator(
-            outputs_dict['latents'], input_is_latent=True)
+        source_results = self.source_generator(outputs_dict['latents'],
+                                               input_is_latent=True)
         resized_source_results = self.face_pool(source_results)
         resized_target_results = self.face_pool(outputs_dict['fake_imgs'])
         # lpip loss
@@ -151,43 +149,35 @@ class PSPTransfer(StaticUnconditionalGAN):
         if self.freezeG > 0 and self.freezeD > 0:
             # G
             for layer in range(self.freezeG):
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'convs.{g_num_layers-2-2*layer}')
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'convs.{g_num_layers-3-2*layer}')
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'to_rgbs.{g_log_size-3-layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'convs.{g_num_layers-2-2*layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'convs.{g_num_layers-3-2*layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'to_rgbs.{g_log_size-3-layer}')
             # D
             for layer in range(self.freezeD):
-                requires_grad(
-                    self.discriminator,
-                    True,
-                    target_layer=f'convs.{d_log_size-2-layer}')
-            requires_grad(
-                self.discriminator, True,
-                target_layer='final_')  # final_conv, final_linear
+                requires_grad(self.discriminator,
+                              True,
+                              target_layer=f'convs.{d_log_size-2-layer}')
+            requires_grad(self.discriminator, True,
+                          target_layer='final_')  # final_conv, final_linear
 
         elif self.freezeG > 0:
             # G
             for layer in range(self.freezeG):
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'convs.{g_num_layers-2-2*layer}')
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'convs.{g_num_layers-3-2*layer}')
-                requires_grad(
-                    self.generator,
-                    False,
-                    target_layer=f'to_rgbs.{g_log_size-3-layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'convs.{g_num_layers-2-2*layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'convs.{g_num_layers-3-2*layer}')
+                requires_grad(self.generator,
+                              False,
+                              target_layer=f'to_rgbs.{g_log_size-3-layer}')
             # D
             requires_grad(self.discriminator, True)
 
@@ -196,13 +186,11 @@ class PSPTransfer(StaticUnconditionalGAN):
             requires_grad(self.generator, False)
             # D
             for layer in range(self.freezeD):
-                requires_grad(
-                    self.discriminator,
-                    True,
-                    target_layer=f'convs.{d_log_size-2-layer}')
-            requires_grad(
-                self.discriminator, True,
-                target_layer='final_')  # final_conv, final_linear
+                requires_grad(self.discriminator,
+                              True,
+                              target_layer=f'convs.{d_log_size-2-layer}')
+            requires_grad(self.discriminator, True,
+                          target_layer='final_')  # final_conv, final_linear
 
         else:
             # G
@@ -226,43 +214,35 @@ class PSPTransfer(StaticUnconditionalGAN):
         if self.freezeG > 0 and self.freezeD > 0:
             # G
             for layer in range(self.freezeG):
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'convs.{g_num_layers-2-2*layer}')
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'convs.{g_num_layers-3-2*layer}')
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'to_rgbs.{g_log_size-3-layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'convs.{g_num_layers-2-2*layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'convs.{g_num_layers-3-2*layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'to_rgbs.{g_log_size-3-layer}')
             # D
             for layer in range(self.freezeD):
-                requires_grad(
-                    self.discriminator,
-                    False,
-                    target_layer=f'convs.{d_log_size-2-layer}')
-            requires_grad(
-                self.discriminator, False,
-                target_layer='final_')  # final_conv, final_linear
+                requires_grad(self.discriminator,
+                              False,
+                              target_layer=f'convs.{d_log_size-2-layer}')
+            requires_grad(self.discriminator, False,
+                          target_layer='final_')  # final_conv, final_linear
 
         elif self.freezeG > 0:
             # G
             for layer in range(self.freezeG):
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'convs.{g_num_layers-2-2*layer}')
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'convs.{g_num_layers-3-2*layer}')
-                requires_grad(
-                    self.generator,
-                    True,
-                    target_layer=f'to_rgbs.{g_log_size-3-layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'convs.{g_num_layers-2-2*layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'convs.{g_num_layers-3-2*layer}')
+                requires_grad(self.generator,
+                              True,
+                              target_layer=f'to_rgbs.{g_log_size-3-layer}')
             # D
             requires_grad(self.discriminator, False)
 
@@ -271,13 +251,11 @@ class PSPTransfer(StaticUnconditionalGAN):
             requires_grad(self.generator, True)
             # D
             for layer in range(self.freezeD):
-                requires_grad(
-                    self.discriminator,
-                    False,
-                    target_layer=f'convs.{d_log_size-2-layer}')
-            requires_grad(
-                self.discriminator, False,
-                target_layer='final_')  # final_conv, final_linear
+                requires_grad(self.discriminator,
+                              False,
+                              target_layer=f'convs.{d_log_size-2-layer}')
+            requires_grad(self.discriminator, False,
+                          target_layer='final_')  # final_conv, final_linear
 
         else:
             # G
@@ -345,8 +323,9 @@ class PSPTransfer(StaticUnconditionalGAN):
                 latents = self.latent_generator(batch_size)
                 fake_imgs = self.generator(latents, input_is_latent=True)
             else:
-                out_dict = self.generator(
-                    None, num_batches=batch_size, return_latents=True)
+                out_dict = self.generator(None,
+                                          num_batches=batch_size,
+                                          return_latents=True)
                 latents = [out_dict['latent']]
                 fake_imgs = out_dict['fake_img']
 
@@ -354,16 +333,15 @@ class PSPTransfer(StaticUnconditionalGAN):
         disc_pred_fake = self.discriminator(fake_imgs)
         disc_pred_real = self.discriminator(real_imgs)
         # get data dict to compute losses for disc
-        data_dict_ = dict(
-            gen=self.generator,
-            disc=self.discriminator,
-            disc_pred_fake=disc_pred_fake,
-            disc_pred_real=disc_pred_real,
-            fake_imgs=fake_imgs,
-            real_imgs=real_imgs,
-            iteration=curr_iter,
-            batch_size=batch_size,
-            loss_scaler=loss_scaler)
+        data_dict_ = dict(gen=self.generator,
+                          disc=self.discriminator,
+                          disc_pred_fake=disc_pred_fake,
+                          disc_pred_real=disc_pred_real,
+                          fake_imgs=fake_imgs,
+                          real_imgs=real_imgs,
+                          iteration=curr_iter,
+                          batch_size=batch_size,
+                          loss_scaler=loss_scaler)
 
         loss_disc, log_vars_disc = self._get_disc_loss(data_dict_)
 
@@ -378,9 +356,9 @@ class PSPTransfer(StaticUnconditionalGAN):
             loss_scaler.scale(loss_disc).backward()
         elif use_apex_amp:
             from apex import amp
-            with amp.scale_loss(
-                    loss_disc, optimizer['discriminator'],
-                    loss_id=0) as scaled_loss_disc:
+            with amp.scale_loss(loss_disc,
+                                optimizer['discriminator'],
+                                loss_id=0) as scaled_loss_disc:
                 scaled_loss_disc.backward()
         else:
             loss_disc.backward()
@@ -396,12 +374,11 @@ class PSPTransfer(StaticUnconditionalGAN):
         # skip generator training if only train discriminator for current
         # iteration
         if (curr_iter + 1) % self.disc_steps != 0:
-            results = dict(
-                fake_imgs=fake_imgs.cpu(), real_imgs=real_imgs.cpu())
-            outputs = dict(
-                log_vars=log_vars_disc,
-                num_samples=batch_size,
-                results=results)
+            results = dict(fake_imgs=fake_imgs.cpu(),
+                           real_imgs=real_imgs.cpu())
+            outputs = dict(log_vars=log_vars_disc,
+                           num_samples=batch_size,
+                           results=results)
             if hasattr(self, 'iteration'):
                 self.iteration += 1
             return outputs
@@ -416,23 +393,23 @@ class PSPTransfer(StaticUnconditionalGAN):
             latents = self.latent_generator(batch_size)
             fake_imgs = self.generator(latents, input_is_latent=True)
         else:
-            out_dict = self.generator(
-                None, num_batches=batch_size, return_latents=True)
+            out_dict = self.generator(None,
+                                      num_batches=batch_size,
+                                      return_latents=True)
             latents = [out_dict['latent']]
             fake_imgs = out_dict['fake_img']
 
         disc_pred_fake_g = self.discriminator(fake_imgs)
 
-        data_dict_ = dict(
-            gen=self.generator,
-            disc=self.discriminator,
-            gen_source=self.source_generator,
-            fake_imgs=fake_imgs,
-            disc_pred_fake_g=disc_pred_fake_g,
-            iteration=curr_iter,
-            batch_size=batch_size,
-            loss_scaler=loss_scaler,
-            latents=latents)
+        data_dict_ = dict(gen=self.generator,
+                          disc=self.discriminator,
+                          gen_source=self.source_generator,
+                          fake_imgs=fake_imgs,
+                          disc_pred_fake_g=disc_pred_fake_g,
+                          iteration=curr_iter,
+                          batch_size=batch_size,
+                          loss_scaler=loss_scaler,
+                          latents=latents)
 
         loss_gen, log_vars_g, source_results = self._get_gen_loss(data_dict_)
 
@@ -446,9 +423,8 @@ class PSPTransfer(StaticUnconditionalGAN):
             loss_scaler.scale(loss_gen).backward()
         elif use_apex_amp:
             from apex import amp
-            with amp.scale_loss(
-                    loss_gen, optimizer['generator'],
-                    loss_id=1) as scaled_loss_disc:
+            with amp.scale_loss(loss_gen, optimizer['generator'],
+                                loss_id=1) as scaled_loss_disc:
                 scaled_loss_disc.backward()
         else:
             loss_gen.backward()
@@ -464,20 +440,25 @@ class PSPTransfer(StaticUnconditionalGAN):
         # update ada p
         if hasattr(self.discriminator.module,
                    'with_ada') and self.discriminator.module.with_ada:
-            self.discriminator.module.ada_aug.update(
-                iteration=curr_iter, num_batches=batch_size)
+            self.discriminator.module.ada_aug.log_buffer[0] += 1
+            self.discriminator.module.ada_aug.log_buffer[
+                1] += disc_pred_real.sign()
+            self.discriminator.module.ada_aug.update(iteration=curr_iter,
+                                                     num_batches=batch_size)
+            log_vars_disc['ada_prob'] = (
+                self.discriminator.module.ada_aug.aug_pipeline.p.data)
 
         log_vars = {}
         log_vars.update(log_vars_g)
         log_vars.update(log_vars_disc)
 
-        results = dict(
-            fake_imgs=fake_imgs.cpu(),
-            real_imgs=real_imgs.cpu(),
-            src_g_imgs=source_results.cpu(),
-            src_g_imgs_bgr=source_results[:, [2, 1, 0], ...].cpu())
-        outputs = dict(
-            log_vars=log_vars, num_samples=batch_size, results=results)
+        results = dict(fake_imgs=fake_imgs.cpu(),
+                       real_imgs=real_imgs.cpu(),
+                       src_g_imgs=source_results.cpu(),
+                       src_g_imgs_bgr=source_results[:, [2, 1, 0], ...].cpu())
+        outputs = dict(log_vars=log_vars,
+                       num_samples=batch_size,
+                       results=results)
 
         if hasattr(self, 'iteration'):
             self.iteration += 1

@@ -7,8 +7,8 @@ _base_ = [
 # you must set `samples_per_gpu`
 # `samples_per_gpu` and `imgs_root` need to be set.
 imgs_root = 'data/toonify'
-data = dict(samples_per_gpu=4,
-            workers_per_gpu=4,
+data = dict(samples_per_gpu=1,
+            workers_per_gpu=1,
             train=dict(dataset=dict(imgs_root=imgs_root)),
             val=dict(imgs_root=imgs_root))
 
@@ -30,7 +30,8 @@ aug_kwargs = {
 model = dict(
     lpips_lambda=0.5,
     freezeD=5,
-    discriminator=dict(data_aug=dict(type='ADAAug', aug_pipeline=aug_kwargs)))
+    discriminator=dict(
+        data_aug=dict(type='ADAAug', aug_pipeline=aug_kwargs, ada_kimg=100)))
 
 # adjust running config
 lr_config = None
@@ -52,7 +53,7 @@ total_iters = 1600
 
 # use ddp wrapper for faster training
 use_ddp_wrapper = True
-find_unused_parameters = True
+find_unused_parameters = False
 
 runner = dict(
     type='DynamicIterBasedRunner',
