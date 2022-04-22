@@ -1,4 +1,4 @@
-stylegan_weights = 'work_dirs/pre-trained/stylegan2_c2_ffhq_1024_b4x8_20210407_150045-618c9024.pth'  # noqa
+stylegan_weights = 'https://download.openmmlab.com/mmgen/stylegan2/stylegan2_c2_ffhq_1024_b4x8_20210407_150045-618c9024.pth'  # noqa
 
 d_reg_interval = 16
 g_reg_interval = 4

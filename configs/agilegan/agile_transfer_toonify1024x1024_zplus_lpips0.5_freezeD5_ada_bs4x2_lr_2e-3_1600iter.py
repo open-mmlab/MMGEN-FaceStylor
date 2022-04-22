@@ -30,7 +30,8 @@ aug_kwargs = {
 model = dict(
     lpips_lambda=0.5,
     freezeD=5,
-    discriminator=dict(data_aug=dict(type='ADAAug', aug_pipeline=aug_kwargs)))
+    discriminator=dict(
+        data_aug=dict(type='ADAAug', aug_pipeline=aug_kwargs, ada_kimg=100)))
 
 # adjust running config
 lr_config = None

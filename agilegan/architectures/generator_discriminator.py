@@ -1,16 +1,11 @@
 import random
 
 import mmcv
-import numpy as np
 import torch
 from mmgen.models.architectures.common import get_module_device
-from mmgen.models.architectures.stylegan.generator_discriminator_v2 import (
-    StyleGAN2Discriminator, StyleGANv2Generator)
-from mmgen.models.builder import MODULES, build_module
-from torch import nn
-
-from .ada.augment import AugmentPipe
-from .ada.misc import constant
+from mmgen.models.architectures.stylegan.generator_discriminator_v2 import \
+    StyleGANv2Generator
+from mmgen.models.builder import MODULES
 
 
 @MODULES.register_module()
@@ -198,86 +193,3 @@ class SwapStyleGANv2Generator(StyleGANv2Generator):
             return output_dict
 
         return img, save_swap_layer
-
-
-@MODULES.register_module()
-class ADAStyleGAN2Discriminator(StyleGAN2Discriminator):
-    def __init__(self, in_size, *args, data_aug=None, **kwargs):
-        """StyleGANv2 Discriminator with adaptive augmentation.
-
-        Args:
-            in_size (int): The input size of images.
-            data_aug (dict, optional): Config for data
-                augmentation. Defaults to None.
-        """
-        super().__init__(in_size, *args, **kwargs)
-        self.with_ada = data_aug is not None
-        if self.with_ada:
-            self.ada_aug = build_module(data_aug)
-
-        self.log_size = int(np.log2(in_size))
-
-    def forward(self, x):
-        """Forward function."""
-        if self.with_ada:
-            x = self.ada_aug.aug_pipeline(x)
-        return super().forward(x)
-
-
-@MODULES.register_module()
-class ADAAug(nn.Module):
-    """Data Augmentation Module for Adaptive Discriminator augmentation.
-
-    Args:
-        aug_pipeline (dict, optional): Config for augmentation pipeline.
-            Defaults to None.
-        update_interval (int, optional): Interval for updating
-            augmentation probability. Defaults to 4.
-        augment_initial_p (float, optional): Initial augmentation
-            probability. Defaults to 0..
-        ada_target (float, optional): ADA target. Defaults to 0.6.
-        ada_kimg (int, optional): ADA training duration. Defaults to 500.
-    """
-    def __init__(self,
-                 aug_pipeline=None,
-                 update_interval=4,
-                 augment_initial_p=0.,
-                 ada_target=0.6,
-                 ada_kimg=500,
-                 use_slow_aug=False):
-        super().__init__()
-        self.aug_pipeline = AugmentPipe(**aug_pipeline)
-        self.update_interval = update_interval
-        self.ada_kimg = ada_kimg
-        self.ada_target = ada_target
-
-        self.aug_pipeline.p.copy_(torch.tensor(augment_initial_p))
-
-        # this log buffer stores two numbers: num_scalars, sum_scalars.
-        self.register_buffer('log_buffer', torch.zeros((2, )))
-
-    def update(self, iteration=0, num_batches=0):
-        """Update Augment probability.
-
-        Args:
-            iteration (int, optional): Training iteration.
-                Defaults to 0.
-            num_batches (int, optional): The number of reals batches.
-                Defaults to 0.
-        """
-
-        if (iteration + 1) % self.update_interval == 0:
-
-            adjust_step = float(num_batches * self.update_interval) / float(
-                self.ada_kimg * 1000.)
-
-            # get the mean value as the ada heuristic
-            ada_heuristic = self.log_buffer[1] / self.log_buffer[0]
-            adjust = np.sign(ada_heuristic.item() -
-                             self.ada_target) * adjust_step
-            # update the augment p
-            # Note that p may be bigger than 1.0
-            self.aug_pipeline.p.copy_((self.aug_pipeline.p + adjust).max(
-                constant(0, device=self.log_buffer.device)))
-
-            self.log_buffer = self.log_buffer * 0.
