@@ -53,7 +53,7 @@ total_iters = 1600
 
 # use ddp wrapper for faster training
 use_ddp_wrapper = True
-find_unused_parameters = False
+find_unused_parameters = True
 
 runner = dict(
     type='DynamicIterBasedRunner',
